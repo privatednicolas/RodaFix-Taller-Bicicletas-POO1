@@ -1,36 +1,22 @@
-/**
- * Clase Bicicleta
- * ----------------
- * Representa una bicicleta que un cliente lleva al taller.
- *
- * Relacion con OrdenReparacion: ASOCIACION.
- * Cada bicicleta guarda un arreglo con las ordenes de reparacion
- * que se le han hecho (su "historial"). Usamos un arreglo nativo
- * de tamaño fijo y un contador para saber cuantas ordenes hay
- * guardadas hasta el momento.
- */
 public class Bicicleta {
 
-    private String codigo;   // identificador interno del taller, ej: "B-001"
+    private String codigo; // identificador interno del taller
     private String marca;
     private String modelo;
-    private String tipo;     // montaña, ruta, urbana, etc.
+    private String tipo;
 
-    // Arreglo nativo de ordenes de reparacion (composicion/asociacion simulada)
+    // el arreglo guarda ordenes normales, urgentes y de mantenimiento
     private OrdenReparacion[] historialOrdenes;
-    private int contadorOrdenes; // cuantas ordenes hay guardadas ahora mismo
+    private int contadorOrdenes;
 
-    // Constructor: recibe la capacidad maxima del historial de ordenes
     public Bicicleta(String codigo, String marca, String modelo, String tipo, int capacidadOrdenes) {
         this.codigo = codigo;
         this.marca = marca;
         this.modelo = modelo;
         this.tipo = tipo;
         this.historialOrdenes = new OrdenReparacion[capacidadOrdenes];
-        this.contadorOrdenes = 0; // arranca en cero, todavia no hay ordenes
+        this.contadorOrdenes = 0;
     }
-
-    // ---------- Getters y Setters ----------
 
     public String getCodigo() {
         return codigo;
@@ -68,26 +54,26 @@ public class Bicicleta {
         return contadorOrdenes;
     }
 
-    /**
-     * Agrega una nueva orden de reparacion al historial de esta bicicleta.
-     * Antes de guardar, revisa si todavia hay espacio en el arreglo
-     * comparando el contador contra el largo del arreglo (.length).
-     */
+    // solo guarda si todavia hay espacio en el arreglo
     public void agregarOrden(OrdenReparacion orden) {
         if (contadorOrdenes < historialOrdenes.length) {
             historialOrdenes[contadorOrdenes] = orden;
-            contadorOrdenes++; // aumentamos el contador despues de guardar
+            contadorOrdenes++;
         } else {
             System.out.println("No se pudo agregar la orden: el historial de la bicicleta "
-                    + codigo + " ya esta lleno (capacidad maxima: " + historialOrdenes.length + ").");
+                    + codigo + " ya esta lleno (maximo " + historialOrdenes.length + ").");
         }
     }
 
-    /**
-     * Muestra los datos de la bicicleta y recorre su arreglo de ordenes
-     * para mostrar cada una. Recorremos solo hasta "contadorOrdenes"
-     * porque de ahi en adelante las posiciones del arreglo estan vacias (null).
-     */
+    // suma el costo final de cada orden, cada una calcula el suyo
+    public double calcularTotal() {
+        double total = 0;
+        for (int i = 0; i < contadorOrdenes; i++) {
+            total += historialOrdenes[i].calcularCostoFinal();
+        }
+        return total;
+    }
+
     public void mostrarInformacion() {
         System.out.println("   Bicicleta [" + codigo + "] " + marca + " " + modelo + " - Tipo: " + tipo);
 
@@ -98,6 +84,7 @@ public class Bicicleta {
             for (int i = 0; i < contadorOrdenes; i++) {
                 historialOrdenes[i].mostrarInformacion();
             }
+            System.out.println("      Total de la bicicleta: $" + calcularTotal());
         }
     }
 }
