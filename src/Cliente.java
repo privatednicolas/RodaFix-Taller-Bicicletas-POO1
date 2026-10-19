@@ -43,13 +43,36 @@ public class Cliente {
         return contadorBicicletas;
     }
 
-    public void agregarBicicleta(Bicicleta bici) {
+    public int getCapacidad() {
+        return bicicletas.length;
+    }
+
+    // devuelve la bicicleta de la posicion i o null si no existe
+    public Bicicleta getBicicleta(int i) {
+        if (i >= 0 && i < contadorBicicletas) {
+            return bicicletas[i];
+        }
+        return null;
+    }
+
+    public Bicicleta buscarBicicleta(String codigo) {
+        for (int i = 0; i < contadorBicicletas; i++) {
+            if (bicicletas[i].getCodigo().equals(codigo)) {
+                return bicicletas[i];
+            }
+        }
+        return null;
+    }
+
+    public boolean agregarBicicleta(Bicicleta bici) {
         if (contadorBicicletas < bicicletas.length) {
             bicicletas[contadorBicicletas] = bici;
             contadorBicicletas++;
+            return true;
         } else {
             System.out.println("No se pudo agregar la bicicleta: el cliente " + nombre
                     + " ya tiene el maximo de " + bicicletas.length + " bicicletas.");
+            return false;
         }
     }
 

@@ -23,13 +23,37 @@ public class Taller {
         return contadorClientes;
     }
 
-    public void agregarCliente(Cliente cliente) {
+    public int getCapacidad() {
+        return clientes.length;
+    }
+
+    // devuelve el cliente de la posicion i o null si no existe (lo usa la interfaz grafica)
+    public Cliente getCliente(int i) {
+        if (i >= 0 && i < contadorClientes) {
+            return clientes[i];
+        }
+        return null;
+    }
+
+    public Cliente buscarCliente(String cedula) {
+        for (int i = 0; i < contadorClientes; i++) {
+            if (clientes[i].getCedula().equals(cedula)) {
+                return clientes[i];
+            }
+        }
+        return null;
+    }
+
+    // ahora devuelve true/false para que la interfaz sepa si se pudo guardar
+    public boolean agregarCliente(Cliente cliente) {
         if (contadorClientes < clientes.length) {
             clientes[contadorClientes] = cliente;
             contadorClientes++;
+            return true;
         } else {
             System.out.println("No se pudo registrar el cliente: el taller ya tiene el maximo de "
                     + clientes.length + " clientes.");
+            return false;
         }
     }
 

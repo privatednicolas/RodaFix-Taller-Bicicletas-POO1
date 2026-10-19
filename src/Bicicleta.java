@@ -55,13 +55,27 @@ public class Bicicleta {
     }
 
     // solo guarda si todavia hay espacio en el arreglo
-    public void agregarOrden(OrdenReparacion orden) {
+    public int getCapacidadOrdenes() {
+        return historialOrdenes.length;
+    }
+
+    // devuelve la orden de la posicion i o null si no existe
+    public OrdenReparacion getOrden(int i) {
+        if (i >= 0 && i < contadorOrdenes) {
+            return historialOrdenes[i];
+        }
+        return null;
+    }
+
+    public boolean agregarOrden(OrdenReparacion orden) {
         if (contadorOrdenes < historialOrdenes.length) {
             historialOrdenes[contadorOrdenes] = orden;
             contadorOrdenes++;
+            return true;
         } else {
             System.out.println("No se pudo agregar la orden: el historial de la bicicleta "
                     + codigo + " ya esta lleno (maximo " + historialOrdenes.length + ").");
+            return false;
         }
     }
 

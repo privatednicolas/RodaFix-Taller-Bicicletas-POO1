@@ -1,6 +1,17 @@
 public class Main {
 
+    // por defecto abre la interfaz grafica (tambien se puede ejecutar VentanaPrincipal directamente)
+    // si se ejecuta con el argumento "consola" corre la demostracion por consola
     public static void main(String[] args) {
+        if (args.length > 0 && args[0].equalsIgnoreCase("consola")) {
+            demoConsola();
+        } else {
+            VentanaPrincipal.main(args);
+        }
+    }
+
+    // demostracion original por consola: prueba el limite de los arreglos
+    public static void demoConsola() {
 
         // el taller acepta maximo 3 clientes para probar el limite
         Taller miTaller = new Taller("RodaFix", 3);
